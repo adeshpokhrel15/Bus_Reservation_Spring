@@ -10,18 +10,18 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="busSchedule")
+@Entity(name="bus_schedule")
 public class BusSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "bus_id")
     private Bus bus;
 
-    @OneToOne
-    @JoinColumn(name = "bus_route_id")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "route_id")
     private BusRoute busroute;
 
     private String departureTime;

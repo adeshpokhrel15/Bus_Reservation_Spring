@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class Bus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "busId")
+    @Column(name = "bus_id")
     private Long busId;
     @Column(name = "bus_name")
     private String busName;

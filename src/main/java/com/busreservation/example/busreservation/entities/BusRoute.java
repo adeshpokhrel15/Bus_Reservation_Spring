@@ -15,6 +15,7 @@ import lombok.Setter;
 public class BusRoute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="route_id")
     private Long routeId;
     private String routeName;
     private String cityFrom;

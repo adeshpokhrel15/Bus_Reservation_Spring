@@ -8,21 +8,25 @@ import com.busreservation.example.busreservation.repositories.BusScheduleReposit
 import com.busreservation.example.busreservation.service.BusScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BusScheduleServiceImpl implements BusScheduleService {
 
     private BusScheduleRepository busScheduleRepository;
     private BusRrouteRepository busRrouteRepository;
+
     @Autowired
     public BusScheduleServiceImpl(BusScheduleRepository theBusScheduleRepository, BusRrouteRepository thebusRrouteRepo){
         busScheduleRepository = theBusScheduleRepository;
         busRrouteRepository = thebusRrouteRepo;
     }
+
     @Override
     public BusSchedule addSchedule(BusSchedule busSchedule) {
-        final boolean exists = busScheduleRepository.existsByBusAndBusRouteAndDepartureTime(
+        final boolean exists = busScheduleRepository.existsByBusAndBusrouteAndDepartureTime(
                 busSchedule.getBus(),
                 busSchedule.getBusroute(),
                 busSchedule.getDepartureTime()
@@ -30,9 +34,8 @@ public class BusScheduleServiceImpl implements BusScheduleService {
         if (exists) {
             throw new ReservationApiException(HttpStatus.CONFLICT, "Duplicate Schedule");
         }
-        return busScheduleRepository.save(busSchedule);
+                return busScheduleRepository.save(busSchedule);
     }
-
 
     @Override
     public List<BusSchedule> getAllBusSchedule() {
@@ -43,7 +46,7 @@ public class BusScheduleServiceImpl implements BusScheduleService {
     public List<BusSchedule> getScheduleByRoute(String routeName) {
         final BusRoute busRoute = busRrouteRepository.findByRouteName(routeName).orElseThrow(
                 () -> new ReservationApiException(HttpStatus.BAD_REQUEST, "Not found"));
-        return busScheduleRepository.findByBusRoute(busRoute).orElseThrow(
+        return busScheduleRepository.findByBusroute(busRoute).orElseThrow(
                 () -> new ReservationApiException(HttpStatus.BAD_REQUEST, "Not found"));
     }
 }
